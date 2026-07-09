@@ -1,0 +1,24 @@
+{
+  "brand_name": "Example Corp",
+  "tone": "confident, plain-spoken, slightly informal but never silly",
+  "voice_notes": "We say 'we' not 'the company'. Avoid jargon. Short sentences.",
+  "banned_words": ["synergy", "revolutionary", "game-changer"],
+  "required_disclaimer": null,
+  "required_hashtags": ["#ExampleCorp"],
+  "preferred_emojis": ["✅", "🚀"],
+  "avoid_emojis": false,
+  "colors": {
+    "primary": "#0B1F3A",
+    "secondary": "#3D8BFF",
+    "accent": "#FFB020"
+  },
+  "fonts": {
+    "heading": "Poppins",
+    "body": "Inter"
+  },
+  "illustration_style": "flat-vector, geometric, two-tone, minimal shadows",
+  "logo_path": "assets/logo.png",
+  "max_length_overrides": {
+    "linkedin": 1500
+  }
+}

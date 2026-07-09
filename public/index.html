@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agent 11 — Enterprise Marketing Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <nav class="sidebar" aria-label="Primary">
+    <div class="sidebar-brand">
+      <div class="wordmark">
+        <img src="brand/hexagon-icon.png" alt="Hexagon" />
+      </div>
+      <div class="sidebar-brand-text">
+        <strong>Agent 11</strong>
+        <span>Enterprise Marketing Studio</span>
+      </div>
+    </div>
+
+    <div class="sidebar-nav-group">
+      <span class="sidebar-nav-label">Workspace</span>
+      <button class="nav-item is-active" type="button" data-view="dashboard">
+        <span class="nav-icon" aria-hidden="true">&#9635;</span>Dashboard
+      </button>
+      <button class="nav-item" type="button" data-view="studio">
+        <span class="nav-icon" aria-hidden="true">&#9998;</span>Content Studio
+      </button>
+      <button class="nav-item" type="button" data-view="assets">
+        <span class="nav-icon" aria-hidden="true">&#9670;</span>Brand Assets
+      </button>
+    </div>
+
+    <div class="sidebar-nav-group">
+      <span class="sidebar-nav-label">Operations</span>
+      <button class="nav-item" type="button" data-view="campaigns">
+        <span class="nav-icon" aria-hidden="true">&#9776;</span>Campaigns
+      </button>
+      <button class="nav-item" type="button" data-view="analytics">
+        <span class="nav-icon" aria-hidden="true">&#9776;</span>Analytics
+      </button>
+      <button class="nav-item" type="button" data-view="settings">
+        <span class="nav-icon" aria-hidden="true">&#9881;</span>Settings
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="status-pill" id="keyStatusPill">
+        <span class="dot" id="keyStatusDot"></span>
+        <span id="keyStatusText">Checking connection…</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+
+    <header class="topbar">
+      <div class="topbar-title">
+        <h1 id="viewTitle">Dashboard</h1>
+        <p id="viewSubtitle" class="topbar-subtitle">Create. Design. Publish. Scale.</p>
+      </div>
+      <img class="topbar-logo" src="brand/hexagon-logo.png" alt="Hexagon" />
+    </header>
+
+    <div id="apiKeyBanner" class="api-banner" hidden>
+      <span class="dot dot-warn"></span>
+      <div>
+        <strong>ANTHROPIC_API_KEY isn't set.</strong>
+        Agent 11 is running in preview mode — mock copy and no live web-search images. Set the key and restart the server to switch it on for real.
+      </div>
+    </div>
+
+    <main class="view-area">
+
+      <!-- ============ DASHBOARD VIEW ============ -->
+      <section class="view" id="view-dashboard">
+        <div class="hero-panel">
+          <div class="hero-panel-text">
+            <span class="eyebrow">Agent 11</span>
+            <h2>Create. Design. Publish. Scale.</h2>
+            <p>Turn one rough draft into on-brand, platform-ready posts — copy, hashtags, SEO metadata, and imagery — in a single generation pass.</p>
+            <button class="btn btn-primary btn-hero" type="button" data-goto="studio">Open Content Studio</button>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="stat-label">Engine status</span>
+            <span class="stat-value" id="dashEngineStatus">Checking…</span>
+            <span class="stat-note" id="dashEngineNote">—</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Brand guidelines</span>
+            <span class="stat-value" id="dashGuidelinesStatus">Not loaded</span>
+            <span class="stat-note">Managed in Brand Assets</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Publishing connections</span>
+            <span class="stat-value" id="dashPublishStatus">—</span>
+            <span class="stat-note">Instagram · LinkedIn · X</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Visual Intelligence</span>
+            <span class="stat-value">6 layouts / 14 styles</span>
+            <span class="stat-note">Rotated automatically per post</span>
+          </div>
+        </div>
+
+        <div class="panel dashboard-steps">
+          <div class="panel-head"><h2>Get started</h2></div>
+          <ol class="step-list">
+            <li><strong>Upload brand guidelines</strong> — tone, banned words, colors, required hashtags. Under Brand Assets.</li>
+            <li><strong>Paste a draft</strong> — a few bullet points is enough. Under Content Studio.</li>
+            <li><strong>Choose platforms</strong> and generate — Agent 11 returns 3–5 complete variations per platform, each with its own sourced or rendered visual.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ============ CONTENT STUDIO VIEW ============ -->
+      <section class="view" id="view-studio" hidden>
+        <div class="workbench">
+
+          <section class="col col-context">
+
+            <div class="panel" id="referencesPanel">
+              <div class="panel-head">
+                <h2><span class="panel-index">01</span> Reference links</h2>
+                <span class="badge badge-optional">Optional</span>
+              </div>
+              <p class="panel-hint">
+                Paste links to press releases, articles, or pages with a photo you want used. Agent 11 reads each
+                one for real facts and pulls a genuine image straight from it when available. Only publicly
+                reachable pages can be read — logins and paywalls can't be bypassed.
+              </p>
+              <div class="ref-input-row">
+                <input type="url" id="referenceLinkInput" placeholder="https://example.com/press-release" />
+                <button class="btn btn-secondary" type="button" id="addReferenceBtn">Add link</button>
+              </div>
+              <ul class="reference-chip-list" id="referenceChipList"></ul>
+            </div>
+
+            <div class="panel" id="brandStatusPanel">
+              <div class="panel-head">
+                <h2><span class="panel-index">02</span> Brand guidelines</h2>
+              </div>
+              <div class="inline-status" id="studioGuidelinesStatus">No guidelines loaded yet.</div>
+              <button class="btn btn-ghost" type="button" data-goto="assets" style="margin-top:12px;width:100%;">Manage in Brand Assets</button>
+              <label class="toggle-row">
+                <input type="checkbox" id="useDefaultGuidelines" />
+                <span class="toggle-switch"><span></span></span>
+                <span class="toggle-label">I don't have one yet — proceed with generic defaults</span>
+              </label>
+            </div>
+
+          </section>
+
+          <section class="col col-draft">
+
+            <div class="panel" id="draftPanel">
+              <div class="panel-head">
+                <h2><span class="panel-index">03</span> Draft</h2>
+              </div>
+              <textarea id="draftText" rows="8" placeholder="Paste your rough draft here — a few bullet points is enough. Agent 11 will do the writing."></textarea>
+
+              <div class="dropzone dropzone-compact" id="draftDropzone" tabindex="0" role="button" aria-label="Attach draft files">
+                <input type="file" id="draftFileInput" multiple hidden />
+                <input type="file" id="draftFolderInput" webkitdirectory directory multiple hidden />
+                <div class="dropzone-copy dropzone-copy-inline">
+                  <strong>Attach files or a folder</strong>
+                  <span>any format — docs, sheets, slides, images, zips — read alongside your draft text</span>
+                </div>
+                <div class="dropzone-actions">
+                  <button class="btn btn-ghost" type="button" id="draftBrowseBtn">Choose files</button>
+                  <button class="btn btn-ghost" type="button" id="draftFolderBtn">Choose folder</button>
+                </div>
+              </div>
+              <ul class="file-chip-list" id="draftFileList" hidden></ul>
+
+              <div class="field-grid">
+                <div class="field">
+                  <label for="toneSelect">Tone</label>
+                  <select id="toneSelect">
+                    <option value="formal but not overly complex, plain language" selected>Formal, plain language</option>
+                    <option value="professional">Professional</option>
+                    <option value="casual and friendly">Casual &amp; friendly</option>
+                    <option value="confident and persuasive">Confident &amp; persuasive</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="audienceSelect">Audience</label>
+                  <select id="audienceSelect">
+                    <option value="industry professionals">Industry professionals</option>
+                    <option value="general public" selected>General public</option>
+                    <option value="prospective customers">Prospective customers</option>
+                    <option value="internal team">Internal team</option>
+                  </select>
+                </div>
+              </div>
+
+              <label class="field-label">Platforms</label>
+              <div class="platform-grid">
+                <button class="platform-card" data-platform="instagram" type="button">
+                  <span class="platform-icon">&#9639;</span><span>Instagram</span>
+                </button>
+                <button class="platform-card" data-platform="linkedin" type="button">
+                  <span class="platform-icon">in</span><span>LinkedIn</span>
+                </button>
+                <button class="platform-card" data-platform="twitter" type="button">
+                  <span class="platform-icon">&#120143;</span><span>X</span>
+                </button>
+                <button class="platform-card" data-platform="infographic" type="button">
+                  <span class="platform-icon">&#9638;</span><span>Infographic</span>
+                </button>
+              </div>
+
+              <div class="toggle-inline-row">
+                <label class="toggle-row toggle-row-compact">
+                  <input type="checkbox" id="includeHashtags" checked />
+                  <span class="toggle-switch"><span></span></span>
+                  <span class="toggle-label">Hashtags</span>
+                </label>
+                <label class="toggle-row toggle-row-compact">
+                  <input type="checkbox" id="addCta" checked />
+                  <span class="toggle-switch"><span></span></span>
+                  <span class="toggle-label">Call-to-action</span>
+                </label>
+              </div>
+
+              <button class="btn btn-primary btn-generate" id="generateBtn" type="button">
+                <span class="btn-signal"><span></span><span></span><span></span></span>
+                Generate posts
+              </button>
+              <div class="generate-error" id="generateError" hidden></div>
+            </div>
+
+          </section>
+        </div>
+
+        <section class="results-deck" id="resultsDeck" hidden>
+          <div class="results-head">
+            <h2>Post options</h2>
+            <div class="platform-tabs" id="platformTabs"></div>
+          </div>
+          <div class="results-notes" id="resultsNotes" hidden></div>
+          <div class="results-grid" id="resultsGrid"></div>
+        </section>
+      </section>
+
+      <!-- ============ BRAND ASSETS VIEW ============ -->
+      <section class="view" id="view-assets" hidden>
+        <div class="panel" id="guidelinesPanel">
+          <div class="panel-head">
+            <h2>Brand guidelines</h2>
+            <span class="badge badge-required">Required for on-brand output</span>
+          </div>
+          <p class="panel-hint">
+            Upload the source of truth for tone, banned words, hashtags, disclaimer, and brand colors —
+            PDF, Word, PowerPoint, Excel, images of a style board, or a whole folder/zip. Everything you
+            attach gets merged into one guideline set for this session.
+          </p>
+
+          <div class="dropzone" id="guidelinesDropzone" tabindex="0" role="button" aria-label="Upload guidelines">
+            <input type="file" id="guidelinesFileInput" multiple hidden
+                   accept=".pdf,.docx,.pptx,.xlsx,.txt,.md,.json,.zip,.csv,.png,.jpg,.jpeg,.gif,.webp,.bmp" />
+            <input type="file" id="guidelinesFolderInput" webkitdirectory directory multiple hidden />
+            <div class="dropzone-icon">&#8593;</div>
+            <div class="dropzone-copy">
+              <strong>Drop files or a folder here</strong>
+              <span>or use the buttons below — any format, any number of files</span>
+            </div>
+            <div class="dropzone-actions">
+              <button class="btn btn-secondary" type="button" id="guidelinesBrowseBtn">Choose files</button>
+              <button class="btn btn-secondary" type="button" id="guidelinesFolderBtn">Choose folder</button>
+            </div>
+          </div>
+
+          <ul class="file-chip-list" id="guidelinesFileList" hidden></ul>
+          <div class="inline-status" id="guidelinesStatus" hidden></div>
+          <div class="guideline-summary" id="guidelineSummary" hidden></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h2>How this works</h2></div>
+          <p class="panel-hint" style="margin-bottom:0;">
+            Agent 11 doesn't persist guidelines on the server — this deployment runs as a stateless
+            serverless function. Whatever you upload here stays in your browser session and is resent
+            automatically with every generation request in Content Studio. Refreshing the page clears it.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ CAMPAIGNS VIEW ============ -->
+      <section class="view" id="view-campaigns" hidden>
+        <div class="panel empty-state">
+          <div class="panel-head"><h2>Campaigns</h2></div>
+          <p class="panel-hint">
+            Every post generated in Content Studio can be published immediately from its result card —
+            that part works today. Multi-post campaign scheduling needs a persistent background worker to
+            fire posts at a future time, which a stateless serverless deployment (this one) doesn't have
+            by design.
+          </p>
+          <p class="panel-hint" style="margin-bottom:0;">
+            To enable scheduled campaigns: add a queue and worker (e.g. Vercel Cron plus a small always-on
+            worker, or a dedicated task queue) that calls <code>/api/publish</code> at the scheduled time.
+            Until then, use "Post now" on any generated option.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ ANALYTICS VIEW ============ -->
+      <section class="view" id="view-analytics" hidden>
+        <div class="panel empty-state">
+          <div class="panel-head"><h2>Analytics</h2></div>
+          <p class="panel-hint" style="margin-bottom:0;">
+            No analytics data source is connected yet. This view will populate once posts are tracked
+            somewhere durable — e.g. storing publish results in a database, or pulling engagement metrics
+            back from each platform's own API. Nothing is fabricated here in the meantime.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============ SETTINGS VIEW ============ -->
+      <section class="view" id="view-settings" hidden>
+        <div class="panel">
+          <div class="panel-head"><h2>Connection status</h2></div>
+          <div class="settings-row">
+            <span>Anthropic API key (content + web search)</span>
+            <span class="pill" id="settingsAnthropicPill">Checking…</span>
+          </div>
+          <div class="settings-row">
+            <span>Instagram publishing</span>
+            <span class="pill" id="settingsInstagramPill">Checking…</span>
+          </div>
+          <div class="settings-row">
+            <span>LinkedIn publishing</span>
+            <span class="pill" id="settingsLinkedinPill">Checking…</span>
+          </div>
+          <div class="settings-row">
+            <span>X / Twitter publishing</span>
+            <span class="pill" id="settingsTwitterPill">Checking…</span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Environment variables</h2></div>
+          <p class="panel-hint" style="margin-bottom:0;">
+            Set <code>ANTHROPIC_API_KEY</code> to enable live copy generation and web-search image sourcing.
+            Publishing credentials for each platform are configured server-side (see README) — this page
+            only reflects whether they're present, it never displays their values.
+          </p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
