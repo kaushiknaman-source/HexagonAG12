@@ -203,7 +203,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
 /* Hexagon brand mark — the primary heading of the top bar */
 .topbar-brand { display: flex; align-items: center; gap: 10px; flex: none; }
 .topbar-brand-icon { height: 26px; width: auto; flex: none; }
-.topbar-brand-wordmark { height: 26px; width: auto; flex: none; }
+.topbar-brand-wordmark { height: 34px; width: auto; flex: none; }
 
 .topbar-divider {
   width: 1px;
