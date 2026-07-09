@@ -194,16 +194,17 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
 .topbar {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 16px 36px;
+  padding: 18px 36px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 20px;
 }
 
 /* Hexagon brand mark — the primary heading of the top bar */
 .topbar-brand { display: flex; align-items: center; gap: 10px; flex: none; }
 .topbar-brand-icon { height: 26px; width: auto; flex: none; }
-.topbar-brand-wordmark { height: 17px; width: auto; flex: none; }
+.topbar-brand-wordmark { height: 26px; width: auto; flex: none; }
 
 .topbar-divider {
   width: 1px;
