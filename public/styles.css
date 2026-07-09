@@ -194,16 +194,37 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
 .topbar {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 18px 36px;
+  padding: 16px 36px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 20px;
 }
-.topbar-title h1 { font-size: 20px; font-weight: 700; }
-.topbar-subtitle { margin: 4px 0 0; font-size: 13px; color: var(--ink-500); }
-.topbar-logo { height: 26px; width: auto; flex: none; }
-@media (max-width: 640px) { .topbar-logo { display: none; } }
+
+/* Hexagon brand mark — the primary heading of the top bar */
+.topbar-brand { display: flex; align-items: center; gap: 10px; flex: none; }
+.topbar-brand-icon { height: 26px; width: auto; flex: none; }
+.topbar-brand-wordmark { height: 17px; width: auto; flex: none; }
+
+.topbar-divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border-strong);
+  flex: none;
+}
+
+.topbar-title { min-width: 0; }
+.topbar-view-label {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-500);
+  font-family: var(--font-mono);
+}
+.topbar-subtitle { margin: 3px 0 0; font-size: 13px; color: var(--ink-700); }
+
+@media (max-width: 640px) { .topbar-brand-wordmark { display: none; } }
 
 .api-banner {
   display: flex;
