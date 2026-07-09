@@ -48,8 +48,6 @@ function showView(view) {
   document.querySelectorAll(".nav-item").forEach((el) => {
     el.classList.toggle("is-active", el.dataset.view === view);
   });
-  $("viewTitle").textContent = VIEW_META[view].title;
-  $("viewSubtitle").textContent = VIEW_META[view].subtitle;
 }
 
 function initNav() {
