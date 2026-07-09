@@ -1,54 +1,58 @@
 /* ============================================================
-   Agent 11 — Enterprise Marketing Studio
-   Design language: built directly on the Hexagon brand system —
-   Sky (blue), Land (green), and Sea (teal) hues, Cool Grey
-   neutrals, and Arial as the specified digital typeface. White
-   canvas, thin dividers, minimal glyph-style icons, no geometric
-   brand motifs reproduced outside the logo itself. One deliberate
-   theme — no dark mode, no theme switcher.
+   Agent 12 — Enterprise Marketing Studio
+   Design language: dark canvas built on the Hexagon brand system —
+   Sky (blue), Land (green), and Sea (teal) hues as accents on a
+   deep navy base, Cool-Grey-derived neutrals, Work Sans (closest
+   free match to Hexagon Akkurat) over an Arial fallback. Thin
+   dividers, minimal glyph-style icons, no geometric brand motifs
+   reproduced outside the logo itself. One deliberate theme — no
+   light mode, no theme switcher.
    ============================================================ */
 
 :root {
   --white: #FFFFFF;
-  --surface: #F4F7FA;
-  --surface-raised: #FFFFFF;
 
-  /* Hexagon neutrals (Cool Grey ramp) */
-  --border: #E7E8E9;        /* Cool Grey 1 */
-  --border-strong: #B9B9BD; /* Cool Grey 4 */
+  /* Dark canvas — three steps of depth instead of light/white surfaces */
+  --bg-app: #0B1B2C;        /* page base */
+  --surface: #10233A;       /* sidebar / topbar band */
+  --surface-raised: #16304A; /* cards, panels, inputs — one step lighter again */
 
-  --ink-900: #000000;       /* Hexagon Black */
-  --ink-700: #41454F;       /* Cool Grey 11 */
-  --ink-500: #71737B;       /* Cool Grey 9 */
-  --ink-400: #B9B9BD;       /* Cool Grey 4 */
+  --border: rgba(255,255,255,0.09);
+  --border-strong: rgba(255,255,255,0.20);
+
+  --ink-900: #F3F7FA;   /* primary text — near white */
+  --ink-700: #C3D2E0;   /* secondary text */
+  --ink-500: #8FA3B8;   /* muted labels */
+  --ink-400: #5E7288;   /* faint / placeholder */
 
   /* Hexagon brand palette — three hue ranges: Sky (blue), Land (green), Sea (teal) */
-  --navy-900: #00284C;   /* Background Dark Blue — hero/sidebar-accent surfaces */
-  --navy-800: #005198;   /* Primary Sky Dark — primary enterprise blue */
+  --navy-900: #00284C;   /* Background Dark Blue — deepest accent surfaces (hero card) */
+  --navy-800: #005198;   /* Primary Sky Dark */
   --blue-600: #01ADFF;   /* Primary Sky — bright interactive accent */
-  --blue-700: #0090DD;
-  --blue-50: #E9F6FF;
+  --blue-700: #4DC8FF;   /* lightened on hover so it still reads against dark surfaces */
+  --blue-50: rgba(1,173,255,0.16);   /* tinted wash for selected/active states */
 
   --land: #83C410;       /* Primary Land */
-  --land-dark: #28721E;  /* Primary Land Dark */
-  --land-50: #EFFAE1;
+  --land-dark: #28721E;
+  --accent-land: #DFF73F; /* Accent Land — used sparingly for eyebrow/label text */
+  --land-50: rgba(131,196,16,0.16);
 
   --sea: #04D0E6;        /* Primary Sea */
-  --sea-dark: #106B73;   /* Primary Sea Dark */
-  --sea-50: #E3FBFD;
+  --sea-dark: #106B73;
+  --sea-50: rgba(4,208,230,0.16);
 
-  /* Success maps to Land (growth/positive); warn/danger use the two
-     special-use colours, reserved by brand guidelines for exactly this —
-     warnings, errors, and high-contrast functional indicators, never for
-     decoration or brand elements. */
-  --ok: var(--land-dark);
+  /* Success maps to Land; warn/danger use the two special-use colours at
+     full brightness so they stay legible on a dark canvas — brand
+     guidelines reserve these for exactly this purpose (warnings, errors,
+     high-contrast functional indicators), never for decoration. */
+  --warn-strong: #FFC505;       /* Special Use Yellow */
+  --danger-strong: #FA4C40;     /* Special Use Red */
+  --ok: var(--land);
   --ok-bg: var(--land-50);
-  --warn: #8A6100;              /* readable text tone in the Special Use Yellow family */
-  --warn-bg: #FFF6D9;
-  --warn-strong: #FFC505;       /* Special Use Yellow — dots/icons only */
-  --danger: #B23227;            /* readable text tone in the Special Use Red family */
-  --danger-bg: #FDE7E4;
-  --danger-strong: #FA4C40;     /* Special Use Red — dots/icons only */
+  --warn: var(--warn-strong);
+  --warn-bg: rgba(255,197,5,0.14);
+  --danger: var(--danger-strong);
+  --danger-bg: rgba(250,76,64,0.14);
 
   --radius-sm: 5px;
   --radius-md: 8px;
@@ -61,8 +65,8 @@
   --font-body: "Work Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;
   --font-mono: "Courier New", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --shadow-panel: 0 1px 2px rgba(0,40,76,0.05), 0 1px 0 rgba(0,40,76,0.03);
-  --shadow-raised: 0 8px 24px rgba(0,40,76,0.16);
+  --shadow-panel: 0 1px 2px rgba(0,0,0,0.35), 0 1px 0 rgba(0,0,0,0.2);
+  --shadow-raised: 0 12px 32px rgba(0,0,0,0.5);
 }
 
 * { box-sizing: border-box; }
@@ -70,7 +74,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: var(--surface);
+  background: var(--bg-app);
   color: var(--ink-900);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -83,7 +87,12 @@ button { font-family: inherit; cursor: pointer; }
 input, select, textarea { font-family: inherit; }
 code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5px; border-radius: 4px; font-size: 0.92em; }
 
-::selection { background: rgba(11,111,209,0.18); }
+::selection { background: rgba(1,173,255,0.28); }
+
+.accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--land) 0%, var(--sea) 55%, var(--blue-600) 100%);
+}
 
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
@@ -105,7 +114,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
 /* ---------------- sidebar ---------------- */
 
 .sidebar {
-  background: var(--white);
+  background: var(--surface);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -152,10 +161,10 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   position: relative;
   transition: background .12s ease, color .12s ease;
 }
-.nav-item:hover { background: var(--surface); color: var(--ink-900); }
+.nav-item:hover { background: var(--surface-raised); color: var(--ink-900); }
 .nav-item.is-active {
   background: var(--blue-50);
-  color: var(--navy-900);
+  color: var(--blue-600);
   font-weight: 600;
 }
 .nav-item.is-active::before {
@@ -183,7 +192,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
 /* ---------------- top bar ---------------- */
 
 .topbar {
-  background: var(--white);
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 18px 36px;
   display: flex;
@@ -201,7 +210,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   gap: 10px;
   align-items: flex-start;
   background: var(--warn-bg);
-  border-bottom: 1px solid #F5E3A8;
+  border-bottom: 1px solid rgba(255,197,5,0.3);
   color: var(--ink-700);
   font-size: 13px;
   padding: 10px 36px;
@@ -225,7 +234,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 999px;
-  background: var(--surface);
+  background: var(--surface-raised);
   font-size: 12px;
   color: var(--ink-700);
   font-family: var(--font-mono);
@@ -272,7 +281,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #9CC4EE;
+  color: var(--accent-land);
   margin-bottom: 10px;
 }
 .hero-panel h2 { color: var(--white); font-size: 27px; margin-bottom: 10px; }
@@ -324,7 +333,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   color: var(--ink-500);
   border: 1px solid var(--border);
 }
-.pill.pill-ok { background: var(--ok-bg); color: var(--ok); border-color: #CFEFAF; }
+.pill.pill-ok { background: var(--ok-bg); color: var(--ok); border-color: rgba(131,196,16,0.35); }
 .pill.pill-off { background: var(--surface); color: var(--ink-500); }
 
 /* Content Studio grid (unchanged structure, restyled) */
@@ -380,7 +389,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   padding: 3px 8px;
   border-radius: 4px;
 }
-.badge-required { background: var(--danger-bg); color: var(--danger); border: 1px solid #F7CFC9; }
+.badge-required { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(250,76,64,0.35); }
 .badge-optional { background: var(--surface); color: var(--ink-500); border: 1px solid var(--border); }
 
 .panel-hint {
@@ -410,7 +419,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   color: var(--blue-600);
   width: 32px; height: 32px;
   border: 1px solid var(--border-strong);
-  background: var(--white);
+  background: var(--surface-raised);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 10px;
@@ -427,7 +436,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
 
 .btn {
   border: 1px solid var(--border-strong);
-  background: var(--white);
+  background: var(--surface-raised);
   color: var(--ink-900);
   font-size: 13px;
   font-weight: 500;
@@ -438,14 +447,14 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
 .btn:hover { border-color: var(--blue-600); background: var(--blue-50); }
 .btn:active { transform: translateY(1px); }
 
-.btn-secondary { background: var(--white); }
+.btn-secondary { background: var(--surface-raised); }
 .btn-ghost { background: transparent; border-color: var(--border); color: var(--ink-700); }
-.btn-ghost:hover { color: var(--navy-900); border-color: var(--blue-600); }
+.btn-ghost:hover { color: var(--blue-600); border-color: var(--blue-600); }
 
 .btn-primary {
-  background: var(--navy-900);
-  border-color: var(--navy-900);
-  color: var(--white);
+  background: var(--blue-600);
+  border-color: var(--blue-600);
+  color: var(--navy-900);
   font-weight: 600;
   width: 100%;
   padding: 13px 18px;
@@ -477,7 +486,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   padding: 10px 12px;
   border-radius: var(--radius-sm);
   background: var(--danger-bg);
-  border: 1px solid #F7CFC9;
+  border: 1px solid rgba(250,76,64,0.35);
   color: var(--danger);
   font-size: 12.5px;
   line-height: 1.5;
@@ -549,7 +558,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
   line-height: 1.7;
 }
 .guideline-summary b { color: var(--ink-900); }
-.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: middle; margin-right: 4px; border: 1px solid rgba(15,23,42,0.15); }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; vertical-align: middle; margin-right: 4px; border: 1px solid rgba(255,255,255,0.25); }
 
 /* ---------------- toggles ---------------- */
 
@@ -607,7 +616,7 @@ code { font-family: var(--font-mono); background: var(--blue-50); padding: 1px 5
 
 textarea, select, input[type="text"], input[type="url"] {
   width: 100%;
-  background: var(--white);
+  background: var(--surface-raised);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-sm);
   color: var(--ink-900);
@@ -635,7 +644,7 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
 @media (max-width: 560px) { .platform-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .platform-card {
-  background: var(--white);
+  background: var(--surface-raised);
   border: 1.5px solid var(--border);
   border-radius: var(--radius-md);
   color: var(--ink-500);
@@ -653,7 +662,7 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
 .platform-card.is-selected {
   border-color: var(--blue-600);
   background: var(--blue-50);
-  color: var(--navy-900);
+  color: var(--blue-600);
 }
 .platform-card.is-selected .platform-icon { color: var(--blue-600); }
 
@@ -674,7 +683,7 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
 
 .platform-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
 .platform-tab {
-  background: var(--white);
+  background: var(--surface-raised);
   border: 1px solid var(--border);
   color: var(--ink-500);
   padding: 7px 14px;
@@ -684,7 +693,7 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
   align-items: center;
   gap: 7px;
 }
-.platform-tab.is-active { border-color: var(--blue-600); color: var(--navy-900); background: var(--blue-50); }
+.platform-tab.is-active { border-color: var(--blue-600); color: var(--blue-600); background: var(--blue-50); }
 .platform-tab .connect-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-400); }
 .platform-tab .connect-dot.is-connected { background: var(--ok); }
 
@@ -692,7 +701,7 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
   font-size: 12px;
   color: var(--danger);
   background: var(--danger-bg);
-  border: 1px solid #F7CFC9;
+  border: 1px solid rgba(250,76,64,0.35);
   border-radius: var(--radius-sm);
   padding: 10px 12px;
   margin-bottom: 16px;
@@ -734,7 +743,7 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
   color: var(--ink-700);
   border: 1px solid var(--border);
 }
-.image-source-tag.src-reference_link { color: var(--ok); border-color: #CFEFAF; }
+.image-source-tag.src-reference_link { color: var(--ok); border-color: rgba(131,196,16,0.35); }
 .image-source-tag.src-web_search { color: var(--sea-dark); border-color: var(--sea-50); }
 .visual-style-tag {
   position: absolute;
@@ -786,7 +795,7 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
   font-size: 11.5px;
   color: var(--blue-700);
   background: var(--blue-50);
-  border: 1px solid #D4E7FA;
+  border: 1px solid rgba(1,173,255,0.32);
   padding: 2px 8px;
   border-radius: 999px;
 }
@@ -840,8 +849,8 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
   z-index: 100;
 }
 .toast {
-  background: var(--ink-900);
-  border: 1px solid var(--ink-900);
+  background: #071120;
+  border: 1px solid var(--border-strong);
   border-left: 3px solid var(--ok);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
@@ -866,7 +875,7 @@ textarea::placeholder, input::placeholder { color: var(--ink-400); }
   overflow: hidden;
 }
 .skeleton-block {
-  background: linear-gradient(90deg, var(--surface) 25%, var(--border) 37%, var(--surface) 63%);
+  background: linear-gradient(90deg, var(--surface) 25%, var(--border-strong) 37%, var(--surface) 63%);
   background-size: 400% 100%;
   animation: skeleton-shimmer 1.4s ease infinite;
 }
