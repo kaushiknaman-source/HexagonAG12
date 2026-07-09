@@ -105,6 +105,22 @@ Rewrite this draft to be ready to post on {spec.display_name}, following every r
 Respond with the JSON object only."""
 
 
+def _call_model(client, user_prompt: str, max_tokens: int) -> str:
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=max_tokens,
+        system=OPTIMIZER_SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": user_prompt}],
+    )
+    text = "".join(block.text for block in response.content if block.type == "text")
+    text = text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+    # response.stop_reason == "max_tokens" means the reply was cut off before
+    # the model finished — the JSON below will be truncated/unparseable, so
+    # the caller should retry with a bigger budget rather than trying to
+    # "fix" a string that was never actually completed.
+    return text, response.stop_reason
+
+
 def optimize_content(draft: str, spec: PlatformSpec, guidelines: GuidelineManager,
                       feedback: str = None, angle: str = None,
                       extra_instructions: str = None, reference_context: str = None) -> dict:
@@ -131,19 +147,24 @@ def optimize_content(draft: str, spec: PlatformSpec, guidelines: GuidelineManage
         user_prompt += f"\n\nA previous attempt failed compliance review for this reason: " \
                         f"\"{feedback}\". Fix this specific issue in your rewrite."
 
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=1200,
-        system=OPTIMIZER_SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": user_prompt}],
-    )
+    # The response schema asks for a full post AND a full alternate rewrite
+    # plus hashtags/seo/alt-text/notes in one go, which can run long
+    # (especially LinkedIn-length posts with emoji). 1200 tokens was too
+    # tight and could cut the JSON off mid-string. Start generous and, if it
+    # still gets cut off, retry once with an even bigger budget instead of
+    # failing the whole variant.
+    token_budgets = [2800, 4096]
+    text = ""
+    last_error = None
+    for max_tokens in token_budgets:
+        text, stop_reason = _call_model(client, user_prompt, max_tokens)
+        if stop_reason == "max_tokens":
+            last_error = f"Response was truncated at {max_tokens} tokens before completing."
+            continue
+        try:
+            return json.loads(text)
+        except json.JSONDecodeError as e:
+            last_error = f"Optimizer did not return valid JSON: {e}"
+            continue
 
-    text = "".join(block.text for block in response.content if block.type == "text")
-    text = text.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
-
-    try:
-        parsed = json.loads(text)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Optimizer did not return valid JSON: {e}\nRaw output: {text}")
-
-    return parsed
+    raise ValueError(f"{last_error}\nRaw output: {text}")

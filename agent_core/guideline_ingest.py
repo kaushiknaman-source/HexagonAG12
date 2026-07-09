@@ -106,7 +106,7 @@ def _llm_extract(raw_text: str) -> dict:
     client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
     response = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=1200,
+        max_tokens=2000,
         system=EXTRACTION_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": f"Extract brand guidelines from this document:\n\n{raw_text[:12000]}"}],
     )
@@ -152,7 +152,7 @@ def _llm_extract_from_image(path: str) -> dict:
     b64 = base64.b64encode(data).decode("utf-8")
     response = client.messages.create(
         model="claude-sonnet-5",
-        max_tokens=1200,
+        max_tokens=2000,
         system=IMAGE_EXTRACTION_SYSTEM_PROMPT,
         messages=[{
             "role": "user",
